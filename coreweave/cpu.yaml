@@ -1,0 +1,40 @@
+apiVersion: virtualservers.coreweave.com/v1alpha1
+kind: VirtualServer
+metadata:
+  name: cpu-server
+  namespace: ...
+  labels: {}
+spec:
+  region: ORD1
+  resources:
+    cpu:
+      count: 1
+      type: amd-epyc-rome
+    memory: 4Gi
+  os:
+    definition: a
+    enableUEFIBoot: false
+    type: linux
+  storage:
+    root:
+      accessMode: ReadWriteOnce
+      size: 100Gi
+      source:
+        pvc:
+          name: ubuntu2004-nvidia-550-54-15-1-docker-master-20240402-ord1
+          namespace: vd-images
+      storageClassName: block-nvme-ord1
+      volumeMode: Block
+  network:
+    directAttachLoadBalancerIP: true
+    disableK8sNetworking: false
+    dnsPolicy: ClusterFirst
+    headless: false
+    public: true
+  users:
+    - sshpublickey: ...
+      username: user
+  cloudInit: |
+    {}
+  runStrategy: RerunOnFailure
+  initializeRunning: true
