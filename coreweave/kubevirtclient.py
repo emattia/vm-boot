@@ -246,9 +246,10 @@ class KubeVirtClient:
         version = self.version(namespace, name)
         while True:
             ret = self.kubevirt_api(namespace, name, 'start', version=version, **kwargs)
-            if ret['code'] == 409:
-                time.sleep(2)
-                continue
+            print(ret)
+            # if ret['code'] == 409:
+            #     time.sleep(2)
+            #     continue
             return ret
 
     def stop(self, namespace, name, **kwargs):

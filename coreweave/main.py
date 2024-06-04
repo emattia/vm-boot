@@ -179,7 +179,7 @@ def create(
     print(f'You can alternatively open {name} by doing "Connect to Host" in VSCode.')
 
 @app.command()
-def stop(name: str, namespace: str):
+def stop(name: str, namespace: str = os.environ['KUBERNETES_NAMESPACE']):
     try:
         client.kubevirt_api.stop(namespace, name)
         print(f'VirtualServer {name} in namespace {namespace} stopped')
@@ -188,7 +188,7 @@ def stop(name: str, namespace: str):
 
 
 @app.command()
-def start(name: str, namespace: str):
+def start(name: str, namespace: str = os.environ['KUBERNETES_NAMESPACE']):
     try:
         client.kubevirt_api.start(namespace, name)
         print(f'VirtualServer {name} in namespace {namespace} started')
